@@ -23,3 +23,30 @@ test('nis with all characters one', function () {
 
     $this->assertTrue($validator->isValid());
 });
+
+test('empty nis is valid because the field is optional', function () {
+    $validator = new NisValidator('');
+
+    $this->assertTrue($validator->isValid());
+});
+
+test('nis with less than 11 digits is invalid', function () {
+    $validator = new NisValidator('1234567890');
+
+    $this->assertFalse($validator->isValid());
+    $this->assertStringContainsString('O NIS (PIS/PASEP) da pessoa deve conter 11 dígitos.', $validator->getMessage());
+});
+
+test('nis with more than 11 digits is invalid', function () {
+    $validator = new NisValidator('123456789012');
+
+    $this->assertFalse($validator->isValid());
+    $this->assertStringContainsString('O NIS (PIS/PASEP) da pessoa deve conter 11 dígitos.', $validator->getMessage());
+});
+
+test('nis with non numeric characters is invalid', function () {
+    $validator = new NisValidator('1234567890a');
+
+    $this->assertFalse($validator->isValid());
+    $this->assertStringContainsString('O NIS (PIS/PASEP) da pessoa deve conter apenas números.', $validator->getMessage());
+});
