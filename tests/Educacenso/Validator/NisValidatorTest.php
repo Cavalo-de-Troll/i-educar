@@ -23,3 +23,18 @@ test('nis with all characters one', function () {
 
     $this->assertTrue($validator->isValid());
 });
+
+test('nis with null is valid', function () {
+    $validator = new NisValidator(null);
+    $this->assertTrue($validator->isValid());
+});
+
+test('nis with only spaces is valid', function () {
+    $validator = new NisValidator('   ');
+    $this->assertTrue($validator->isValid());
+});
+
+test('nis with spaces around is valid', function () {
+    $validator = new NisValidator(' 12345678901 ');
+    $this->assertTrue($validator->isValid());
+});

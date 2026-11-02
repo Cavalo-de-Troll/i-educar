@@ -6,11 +6,11 @@ class NisValidator implements EducacensoValidator
 {
     private $message;
 
-    private $nis;
+    private ?string $nis;
 
-    public function __construct(string $nis)
+    public function __construct(?string $nis)
     {
-        $this->nis = $nis;
+        $this->nis = $nis !== null ? trim($nis) : null;
     }
 
     public function isValid(): bool
@@ -20,6 +20,21 @@ class NisValidator implements EducacensoValidator
 
             return false;
         }
+        if ($this->nis === null || trim($this->nis) === '') {
+            return true;
+        }
+        if (strlen($this->nis) !== 11) {
+        $this->message = 'O NIS deve ter 11 dígitos.';
+        return false;
+    }
+    if (empty($this->nis)) { 
+        return true; 
+        }
+
+    if (!ctype_digit($this->nis)) {
+        $this->message = 'O NIS deve conter apenas números.';
+        return false;
+    }
 
         return true;
     }
